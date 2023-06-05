@@ -2,6 +2,7 @@ package org.example.chap05;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
@@ -37,6 +38,45 @@ public class PracticalTraining {
                         .distinct()
                         .collect(toList());
 
+        List<Trader> traders =
+                tr.transactions.stream()
+                        .map(Transaction::getTrader)
+                        .filter(trader -> trader.getCity().equals("Cambridge"))
+                        .distinct()
+                        .sorted(comparing(Trader::getName))
+                        .collect(toList());
+
+        String traderStr =
+                tr.transactions.stream()
+                        .map(transaction -> transaction.getTrader().getName())
+                        .distinct()
+                        .sorted()
+                        .reduce("", (n1, n2) -> n1 + n2);
+
+        boolean milanBased =
+                tr.transactions.stream()
+                        .anyMatch(transaction -> transaction.getTrader().getCity().equals("Milan"));
+
+
+                tr.transactions.stream()
+                        .filter(t -> "Cambridge".equals(t.getTrader().getCity()))
+                        .map(Transaction::getValue)
+                        .forEach(System.out::println);
+
+        Optional<Integer> highestValue =
+                tr.transactions.stream()
+                        .map(Transaction::getValue)
+                        .reduce(Integer::max);
+
+        Optional<Transaction> smallestTransaction =
+                tr.transactions.stream()
+                        .reduce((t1, t2) ->
+                                t1.getValue() < t2.getValue() ? t1 : t2);
+
+        Optional<Integer> minValue =
+                tr.transactions.stream()
+                        .map(Transaction::getValue)
+                        .reduce(Integer::min);
     }
 
 }
