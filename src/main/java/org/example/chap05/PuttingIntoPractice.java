@@ -1,7 +1,5 @@
 package org.example.chap05;
 
-import modernjavainaction.chap05.Trader;
-import modernjavainaction.chap05.Transaction;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
